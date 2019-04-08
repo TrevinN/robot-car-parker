@@ -44,6 +44,7 @@ public class RRT {
 	}
 	
 	private void createTree() {
+		_pathUpToDate = false;
 		boolean hasFinished = false;
 		PriorityQueue<Vertex> pq = new PriorityQueue<>();
 		pq.add(new Vertex(_start));
@@ -68,7 +69,6 @@ public class RRT {
 				}
 			}
 		}
-		_pathUpToDate = false;
 	}
 	
 	// going to need to generate a random point using some sort of distribution which will favor more towards the 

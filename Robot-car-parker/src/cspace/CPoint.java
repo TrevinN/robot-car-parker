@@ -1,15 +1,15 @@
 package cspace;
 
-import shared.Type;;
+import shared.CType;;
 
 public class CPoint {
 
 	private final int _x;
 	private final int _y;
 	private final int _theta;
-	private Type _type;
+	private CType _type;
 	
-	public CPoint(int x, int y, int theta, Type type) {
+	public CPoint(int x, int y, int theta, CType type) {
 		_x = x;
 		_y = y;
 		_theta = theta;
@@ -28,11 +28,11 @@ public class CPoint {
 		return _theta;
 	}
 	
-	public Type getType() {
+	public CType getType() {
 		return _type;
 	}
 	
-	public void setType(Type type) {
+	public void setType(CType type) {
 		_type = type;
 	}
 	

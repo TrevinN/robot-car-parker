@@ -57,4 +57,9 @@ public class CSpace {
 	public void changeKnownType(CPoint toChange) {
 		_knownPoints.stream().map(cp -> cp.Equals(toChange) ? toChange : cp);
 	}
+	
+	public boolean isColision(int x, int y, int theta) {
+		// TODO
+		return false;
+	}
 }

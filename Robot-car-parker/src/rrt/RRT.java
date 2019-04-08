@@ -2,25 +2,45 @@ package rrt;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-
-import javax.sound.sampled.LineEvent.Type;
-
 import cspace.*;
 import shared.*;
 
 public class RRT {
 
-	private CSpace _cspace;
+	private final CSpace _cspace;
 	private CPoint _goal;
 	private CPoint _start;
 	private Vertex _root;
+	private Vertex _goalVertex;
+	private boolean _pathUpToDate;
+	private CPoint[] _path;
 	
 	public RRT(CSpace cspace) {
 		_cspace = cspace;
-		_goal = cspace.getGoal();
-		_start = cspace.getStart();
+		_goal = _cspace.getGoal();
+		_start = _cspace.getStart();
 		_root = new Vertex(_start);
 		createTree();
+	}
+	
+	public CPoint[] getPath() {
+		if (!_pathUpToDate) {
+			_path = generatePath();
+			_pathUpToDate = true;
+		}
+		return _path;
+	}
+	
+	private CPoint[] generatePath() {
+		Vertex curr = _goalVertex;
+		ArrayList<CPoint> path = new ArrayList<>();
+		while (!curr.equals(_root)) {
+			path.add(curr.getPoint());
+			curr = curr.getParent();
+		}
+		path.add(_start);
+		CPoint[] toReturn = new CPoint[path.size()];
+		return path.toArray(toReturn);
 	}
 	
 	private void createTree() {
@@ -42,15 +62,24 @@ public class RRT {
 				curr.addChild(alpha);
 				alpha.setParent(curr);
 				pq.add(alpha);
+				if (alpha.getPoint().Equals(_goal)) {
+					_goalVertex = alpha;
+					hasFinished = true;
+				}
 			}
 		}
+		_pathUpToDate = false;
 	}
 	
+	// going to need to generate a random point using some sort of distribution which will favor more towards the 
+	// point being closer to the given curr value, can also only generate valid points which could potentially be harder but idk
+	// also may want to add a private boolean value taken in in the constructor which determines if we can go backwards
 	private Vertex nextAlpha(Vertex curr) {
 		// TODO
 		return new Vertex(new CPoint(0, 0, 0, CType.FREE));
 	}
 	
+	// we may not need this if we decide to go with the approach of only generating valid points
 	private boolean isLegalPoint(Vertex curr, Vertex next) {
 		// TODO
 		return true;

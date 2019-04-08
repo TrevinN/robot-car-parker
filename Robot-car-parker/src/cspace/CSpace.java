@@ -3,7 +3,7 @@ package cspace;
 import java.util.ArrayList;
 
 public class CSpace {
-	
+
 	private final int _xSize;
 	private final int _ySize;
 	private final int _thetaSize;

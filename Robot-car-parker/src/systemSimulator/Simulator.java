@@ -90,12 +90,13 @@ public class Simulator implements Runnable{
         public double time;
         public double v;
 
-        public Node(Action a, double t, double xx, double yy, double timebefore, double v){
+        public Node(Action a, double t, double xx, double yy, double timebefore, double vv){
             action = a;
             theta = t;
             x = xx;
             y = yy;
             time = timebefore;
+            v = vv;
         }
     }
 

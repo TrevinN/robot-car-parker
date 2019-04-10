@@ -1,6 +1,7 @@
 package systemSimulator;
 
 import space.*;
+import ui.Workspace;
 
 public class Simulator {
 

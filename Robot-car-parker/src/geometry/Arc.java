@@ -1,39 +1,95 @@
 package geometry;
 
+import java.awt.Graphics;
+
 public class Arc extends Collidable
 {
-	public final Vector start;
-	public final double startAngle;
-	public final Vector end;
-	public final double endAngle;
-	public final double rho;
-	public final double length;
+	//public final Vector start;
+	//public final double startAngle;
+	//public final Vector end;
+	//public final double endAngle;
+	//public final double rho;
+	//public final double length;
 	
-	/**
-	 * Constructs a new arc
-	 * @param start			The starting point of the arc
-	 * @param startAngle	The angle the tangent of the arc at the start has to the world
-	 * @param rho			The radius of the circle the arc lies on. If rho is negative,
-	 * 						the arc turns to the left, if positive, the arc turns to the
-	 * 						right. If rho is 0 or infinity, the arc does not turn, making
-	 * 						it a line
-	 * @param arcLength		The length of the arc
-	 */
-	public Arc(Vector start, double startAngle, double rho, double arcLength)
+	public final Vector center;
+	public final double radius;
+	public final double startAngle;
+	public final double arcAngle;
+	public final Vector startPoint;
+	public final Vector endPoint;
+	
+	public Arc(Vector center, double radius, double startAngle, double arcAngle)
 	{
-		this.rho = rho;
-		this.start = start;
-		this.length = arcLength;
+		if(center == null)
+			throw new NullPointerException("Arc's center cannot be null");
+		if(radius <= 0.0)
+			throw new IllegalArgumentException("Arc must have a positive radius");
+		
+		startAngle = startAngle % Math.PI;
+		
+		this.center = center;
+		this.radius = radius;
 		this.startAngle = startAngle;
-		if(isSegment())
+		this.arcAngle = arcAngle;
+		
+		double x,y;
+		x = Math.cos(startAngle)*radius;
+		y = Math.sin(startAngle)*radius;
+		this.startPoint = center.add(x,y);
+		x = Math.cos(arcAngle)*radius;
+		y = Math.sin(arcAngle)*radius;
+		this.endPoint = center.add(x,y);
+		
+	}
+	
+	public void draw(Graphics g)
+	{
+		g.drawArc(
+				(int) center.x, 
+				(int) center.y, 
+				(int) radius, 
+				(int) radius, 
+				(int) (startAngle/Math.PI*360), 
+				(int) (startAngle/Math.PI*360));
+	}
+	
+	public boolean collides(Rectangle r)
+	{
+		return r.collides(this);
+	}
+	
+	public boolean collides(LineSegment l)
+	{
+		Vector d = l.v1.subtract(l.v0);
+		Vector f = l.v0.subtract(center);
+		
+		double a = d.dot(d);
+		double b = 2*f.dot(d);
+		double c = f.dot(f) - radius*radius;
+		
+		double discriminant = b*b - 4*a*c;
+		if(discriminant < 0)
 		{
-			this.end = 
+			return false;
+		}
+		else
+		{
+			discriminant = Math.sqrt(discriminant);
+			
+			double t1 = (-b - discriminant) / (2*a);
+			double t2 = (-b + discriminant) / (2*a);
+			
+			if(t1 >= 0 && t1 <= 1)
+			{
+				Vector p = l.v0.add(d.multiply(t1, t1));
+				double angle = p.subtract(center).angle();
+				return true;
+			}
+			if(t2 >= 0 && t2 <= 1)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
-	
-	public boolean isSegment()
-	{
-		return rho == 0.0 || rho == Double.NEGATIVE_INFINITY || rho == Double.POSITIVE_INFINITY;
-	}
-	
 }

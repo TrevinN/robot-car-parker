@@ -2,7 +2,7 @@ package geometry;
 
 import java.awt.geom.Line2D;
 
-public class LineSegment
+public class LineSegment extends Collidable
 {
 	public final Vector v0;
 	public final Vector v1;

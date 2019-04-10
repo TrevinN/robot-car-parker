@@ -1,6 +1,7 @@
 package space;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.List;
 
 import geometry.Vector;
@@ -36,11 +37,27 @@ public class Car
 
 	public List<Vector> getPoints()
 	{
-		return null;
+		List<Vector> out = new ArrayList<>();
+		
+		double a = (length - L) / 2;
+		out.add( position.add(-a, -width/2)		.rotate(angle, position) );
+		out.add( position.add(-a, width/2)		.rotate(angle, position) );
+		out.add( position.add(a + L, width/2)	.rotate(angle, position) );
+		out.add( position.add(a + L, -width/2)	.rotate(angle, position) );
+		
+		return out;
 	}
 	
 	public void draw(Graphics g)
 	{
-		List<Vector> points = null;
+		List<Vector> points = getPoints();
+		int[] x = new int[points.size()];
+		int[] y = new int[points.size()];
+		for(int i = 0; i < 0; i++)
+		{
+			x[i] = (int) points.get(i).x;
+			y[i] = (int) points.get(i).y;
+		}
+		g.drawPolygon(x, y, points.size());
 	}
 }

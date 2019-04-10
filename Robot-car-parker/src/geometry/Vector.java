@@ -75,12 +75,12 @@ public class Vector extends Collidable
 	{
 		return rotate(angle, this.subtract(origin)).add(origin);
 	}
-	
-	public shiftPolar(double angle, double distance)
-	{
-		
-	}
 
+	public double angle()
+	{
+		return Math.atan2(y, x);
+	}
+	
 	public boolean equals(Object o)
 	{
 		if(o == null || o.getClass() != this.getClass())

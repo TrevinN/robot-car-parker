@@ -1,14 +1,24 @@
 package geometry;
 
 public abstract class Collidable
-{
-	public boolean collides(Collidable c)
+{	
+	public boolean collides(Rectangle r)
 	{
-		return false;
+		throw new UnsupportedOperationException();
 	}
 	
-	public static boolean collidesLineOnArc(LineSegment l, Arc a)
+	public boolean collides(Arc a)
 	{
-		return false;
+		throw new UnsupportedOperationException();
+	}
+	
+	public boolean collides(LineSegment l)
+	{
+		throw new UnsupportedOperationException();
+	}
+	
+	public boolean collides(Vector v)
+	{
+		throw new UnsupportedOperationException();
 	}
 }

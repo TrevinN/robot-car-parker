@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Rectangle extends Collidable
 {
-	public Vector v0;
-	public Vector v1;
+	public final Vector v0;
+	public final Vector v1;
 	
 	public Rectangle(double x, double y, double width, double height)
 	{
@@ -19,10 +19,10 @@ public class Rectangle extends Collidable
 	{
 		double x0 = Math.min(v0.x, v1.x);
 		double y0 = Math.min(v0.y, v1.y);
-		double x1 = Math.max(v0.y, v1.y);
+		double x1 = Math.max(v0.x, v1.x);
 		double y1 = Math.max(v0.y, v1.y);
-		v0 = new Vector(x0, y0);
-		v1 = new Vector(x1, y1);
+		this.v0 = new Vector(x0, y0);
+		this.v1 = new Vector(x1, y1);
 	}
 	
 	public double width()
@@ -47,7 +47,10 @@ public class Rectangle extends Collidable
 	
 	public void draw(Graphics g)
 	{
-		g.drawRect((int) v0.x, (int) v0.y, (int) width(), (int) height());
+		if(g == null)
+			throw new NullPointerException();
+		
+		g.fillRect((int) v0.x, (int) v0.y, (int) width(), (int) height());
 	}
 	
 	public boolean collides(Rectangle r)

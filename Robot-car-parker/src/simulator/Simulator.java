@@ -1,4 +1,8 @@
-package systemSimulator;
+package simulator;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 import space.*;
 import ui.Workspace;
@@ -14,6 +18,7 @@ public class Simulator {
     private double _length;
     
     public Simulator(Workspace wspace) {
+    	/*
         _wspace = wspace;
         _xsize = // x size
         _ysize = // y size
@@ -21,13 +26,14 @@ public class Simulator {
         _starty = // start y
         _starttheta = // start theta
         _length = // length
+        */
     }
 
     public Stack<Action> simulate(){
         boolean inGoal = false;
         Node endPoint;
         Node last = new Node(new Action(0, 0), _starttheta, _startx, _starty, 0);
-        Queue<Node> nodeQueue = new Queue<>();
+        Queue<Node> nodeQueue = new LinkedList<>();
         double time = 0;
         double deltaT = .1;
         while (!inGoal && !nodeQueue.isEmpty()){
@@ -38,7 +44,7 @@ public class Simulator {
                     double vprime = n.v + accel * deltaT;
                     if (math.abs(vprime) > 10) continue;
                     double tempVal = ((n.v + vprime) / 2) * deltaT;
-                    double x = n.x + tempVal * math.cos(n.theta);
+                    double x = n.x + tempVal * Math.cos(n.theta);
                     double y = n.y + tempVal * math.sin(n.theta);
                     double roh = _length / math.tan(turn);
                     double theta = n.theta + ((n.v + vprime) / (2 * roh)) * deltaT;

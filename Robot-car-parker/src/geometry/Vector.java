@@ -1,5 +1,7 @@
 package geometry;
 
+import java.awt.Graphics;
+
 public class Vector extends Collidable
 {
 	private static double EPSILON = 1e-6;
@@ -73,7 +75,7 @@ public class Vector extends Collidable
 	}
 	public Vector rotate(double angle, Vector origin)
 	{
-		return rotate(angle, this.subtract(origin)).add(origin);
+		return this.subtract(origin).rotate(angle).add(origin);
 	}
 
 	public double angle()
@@ -95,6 +97,12 @@ public class Vector extends Collidable
 	public String toString()
 	{
 		return "(" + x + ", " + y + ")";
+	}
+	public void draw(Graphics g)
+	{
+		int px = ((int) x) - 3;
+		int py = ((int) y) - 3;
+		g.fillOval(px, py, 6, 6);
 	}
 	
 	public static void setEpsilon(double e)

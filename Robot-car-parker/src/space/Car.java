@@ -1,5 +1,6 @@
 package space;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +54,15 @@ public class Car
 		List<Vector> points = getPoints();
 		int[] x = new int[points.size()];
 		int[] y = new int[points.size()];
-		for(int i = 0; i < 0; i++)
+		for(int i = 0; i < points.size(); i++)
 		{
 			x[i] = (int) points.get(i).x;
 			y[i] = (int) points.get(i).y;
 		}
-		g.drawPolygon(x, y, points.size());
+		g.fillPolygon(x, y, points.size());
+		for(Vector v : points)
+		{
+			System.out.println(v);
+		}
 	}
 }

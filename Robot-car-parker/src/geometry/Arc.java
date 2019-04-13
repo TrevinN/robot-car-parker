@@ -44,13 +44,14 @@ public class Arc extends Collidable
 	
 	public void draw(Graphics g)
 	{
+		System.out.println("Drawing arc");
 		g.drawArc(
-				(int) center.x, 
-				(int) center.y, 
-				(int) radius, 
-				(int) radius, 
+				(int) (center.x * Scale.SCALE), 
+				(int) (center.y * Scale.SCALE), 
+				(int) (radius * Scale.SCALE), 
+				(int) (radius * Scale.SCALE), 
 				(int) (startAngle/Math.PI*360), 
-				(int) (startAngle/Math.PI*360));
+				(int) (arcAngle/Math.PI*360));
 	}
 	
 	public boolean collides(Rectangle r)

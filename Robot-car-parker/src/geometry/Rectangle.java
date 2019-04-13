@@ -35,6 +35,11 @@ public class Rectangle extends Collidable
 		return v1.y - v0.y;
 	}
 
+	public Vector center()
+	{
+		return v1.add(v0).divide(2, 2);
+	}
+	
 	public List<LineSegment> getSegments()
 	{
 		List<LineSegment> out = new ArrayList<>(4);
@@ -50,7 +55,11 @@ public class Rectangle extends Collidable
 		if(g == null)
 			throw new NullPointerException();
 		
-		g.fillRect((int) v0.x, (int) v0.y, (int) width(), (int) height());
+		g.fillRect(
+				(int) (v0.x * Scale.SCALE), 
+				(int) (v0.y * Scale.SCALE), 
+				(int) (width() * Scale.SCALE), 
+				(int) (height() * Scale.SCALE));
 	}
 	
 	public boolean collides(Rectangle r)

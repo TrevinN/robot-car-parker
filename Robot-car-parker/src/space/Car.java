@@ -1,13 +1,17 @@
 package space;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import geometry.Arc;
+import geometry.Collidable;
+import geometry.LineSegment;
+import geometry.Rectangle;
+import geometry.Scale;
 import geometry.Vector;
 
-public class Car
+public class Car extends Collidable
 {
 	public static final double TURNING_ANGLE = Math.PI / 6;
 	public static final double MAX_VELOCITY = 10.0;
@@ -36,7 +40,32 @@ public class Car
 		this.position = position;
 	}
 
-	public List<Vector> getPoints()
+	public synchronized double getAngle()
+	{
+		return angle;
+	}
+	
+	public synchronized Vector getPosition()
+	{
+		return position;
+	}
+	
+	public synchronized void setAngle(double angle)
+	{
+		this.angle = angle;
+	}
+	
+	public synchronized void setPosition(Vector position)
+	{
+		this.position = position;
+	}
+	
+	public double calcTurningRadius(double angle)
+	{
+		return L / Math.tan(angle);
+	}
+	
+	public synchronized List<Vector> getPoints()
 	{
 		List<Vector> out = new ArrayList<>();
 		
@@ -49,20 +78,43 @@ public class Car
 		return out;
 	}
 	
-	public void draw(Graphics g)
+	public synchronized List<LineSegment> getLineSegments()
+	{
+		List<LineSegment> out = new ArrayList<>();
+		List<Vector> points = getPoints();
+		
+		for(int i = 0; i < points.size(); i++)
+		{
+			out.add(new LineSegment(
+					points.get(i), 
+					points.get((i+1)%points.size())
+					));
+		}
+		return out;
+	}
+	
+	public synchronized void draw(Graphics g)
 	{
 		List<Vector> points = getPoints();
 		int[] x = new int[points.size()];
 		int[] y = new int[points.size()];
 		for(int i = 0; i < points.size(); i++)
 		{
-			x[i] = (int) points.get(i).x;
-			y[i] = (int) points.get(i).y;
+			x[i] = (int) (points.get(i).x * Scale.SCALE);
+			y[i] = (int) (points.get(i).y * Scale.SCALE);
 		}
-		g.fillPolygon(x, y, points.size());
-		for(Vector v : points)
+		g.drawPolygon(x, y, points.size());
+	}
+
+	public synchronized boolean collides(Rectangle r)
+	{
+		for(LineSegment l : getLineSegments())
 		{
-			System.out.println(v);
+			if(r.collides(l))
+			{
+				return true;
+			}
 		}
+		return false;
 	}
 }

@@ -1,5 +1,6 @@
 package geometry;
 
+import java.awt.Graphics;
 import java.awt.geom.Line2D;
 
 public class LineSegment extends Collidable
@@ -12,8 +13,17 @@ public class LineSegment extends Collidable
 		this.v0 = v0;
 		this.v1 = v1;
 	}
-
-	public boolean intersects(LineSegment l)
+	
+	public void draw(Graphics g)
+	{
+		g.drawLine(
+				(int) (v0.x * Scale.SCALE), 
+				(int) (v0.y * Scale.SCALE), 
+				(int) (v1.x * Scale.SCALE), 
+				(int) (v1.y * Scale.SCALE));
+	}
+	
+	public boolean collides(LineSegment l)
 	{
 		return Line2D.linesIntersect(
 				this.v0.x, this.v0.y, this.v1.x, this.v1.y, 

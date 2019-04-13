@@ -100,8 +100,8 @@ public class Vector extends Collidable
 	}
 	public void draw(Graphics g)
 	{
-		int px = ((int) x) - 3;
-		int py = ((int) y) - 3;
+		int px = ((int) (x * Scale.SCALE)) - 3;
+		int py = ((int) (y * Scale.SCALE)) - 3;
 		g.fillOval(px, py, 6, 6);
 	}
 	
